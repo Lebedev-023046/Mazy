@@ -10,9 +10,8 @@ import React from "react";
 export default function ProductScreen() {
   const dispatch = useAppDispatch();
   const { cartItems } = useAppSelector((state) => state.cartSlice.cart);
-
-  const { query } = useRouter();
-  const { slug } = query;
+  const router = useRouter();
+  const { slug } = router.query;
   const product = data.products.find((p) => p.slug === slug);
   if (!product) {
     return <div>Product Not Found</div>;
@@ -28,6 +27,7 @@ export default function ProductScreen() {
     }
 
     dispatch(addCartItem({ ...product, productCount: productCount }));
+    router.push("/cart");
   };
 
   return (
