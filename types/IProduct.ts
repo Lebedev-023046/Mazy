@@ -11,3 +11,7 @@ export interface IProduct {
   brand: string;
   quantity: number;
 }
+
+export interface ICartProduct extends IProduct {
+  productCount: number;
+}
