@@ -4,7 +4,7 @@ import { data } from "@/utils/data";
 // import { IProduct } from "@/types";
 import React from "react";
 
-const Home: React.FC = function () {
+export default function Home() {
   // useEffect(() => {
   //   try {
   //     fetch("data.json")
@@ -24,6 +24,4 @@ const Home: React.FC = function () {
       </div>
     </Layout>
   );
-};
-
-export default Home;
+}
