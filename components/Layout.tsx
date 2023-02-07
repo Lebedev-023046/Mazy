@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { useAppSelector } from "@/hooks/redux";
 
 interface ILayoutProps {
   title?: string;
@@ -8,6 +9,7 @@ interface ILayoutProps {
 }
 
 export default function Layout({ title, children }: ILayoutProps) {
+  const { cartItems } = useAppSelector((state) => state.cartSlice.cart);
   return (
     <>
       <Head>
@@ -29,6 +31,14 @@ export default function Layout({ title, children }: ILayoutProps) {
             <div>
               <Link href={"cart"} className="p-2">
                 Cart
+                {cartItems.length > 0 && (
+                  <span className="ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">
+                    {cartItems.reduce(
+                      (acc, elem) => acc + elem.productCount,
+                      0
+                    )}
+                  </span>
+                )}
               </Link>
               <Link href={"login"} className="p-2">
                 Login
