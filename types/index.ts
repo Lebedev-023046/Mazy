@@ -1,3 +1,3 @@
-import { IProduct } from "./IProduct";
+import { IProduct, ICartProduct } from "./IProduct";
 
-export type { IProduct };
+export type { IProduct, ICartProduct };
