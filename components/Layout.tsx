@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useAppSelector } from "@/hooks/redux";
@@ -10,6 +10,12 @@ interface ILayoutProps {
 
 export default function Layout({ title, children }: ILayoutProps) {
   const { cartItems } = useAppSelector((state) => state.cartSlice.cart);
+  const [cartItemsCount, setCartItemsCount] = useState(0);
+  useEffect(() => {
+    setCartItemsCount(
+      cartItems.reduce((acc, elem) => acc + elem.productCount, 0)
+    );
+  }, [cartItems]);
   return (
     <>
       <Head>
@@ -31,12 +37,9 @@ export default function Layout({ title, children }: ILayoutProps) {
             <div>
               <Link href={"/cart"} className="p-2">
                 Cart
-                {cartItems.length > 0 && (
+                {cartItemsCount > 0 && (
                   <span className="ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">
-                    {cartItems.reduce(
-                      (acc, elem) => acc + elem.productCount,
-                      0
-                    )}
+                    {cartItemsCount}
                   </span>
                 )}
               </Link>
