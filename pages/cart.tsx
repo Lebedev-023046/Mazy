@@ -1,3 +1,4 @@
+import React from "react";
 import Layout from "@/components/Layout";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { addCartItem, removeCartItem } from "@/store/reducers/cartSlice";
@@ -7,9 +8,9 @@ import { XCircleIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import dynamic from "next/dynamic";
 
-export default function CartScreen() {
+function CartScreen() {
   const router = useRouter();
   const { cartItems } = useAppSelector((state) => state.cartSlice.cart);
   const dispatch = useAppDispatch();
@@ -114,3 +115,5 @@ export default function CartScreen() {
     </Layout>
   );
 }
+
+export default dynamic(() => Promise.resolve(CartScreen), { ssr: false });
