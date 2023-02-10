@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { removeCartItem } from "@/store/reducers/cartSlice";
+import { addCartItem, removeCartItem } from "@/store/reducers/cartSlice";
 import { ICartProduct } from "@/types";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 
@@ -13,8 +13,14 @@ export default function CartScreen() {
   const router = useRouter();
   const { cartItems } = useAppSelector((state) => state.cartSlice.cart);
   const dispatch = useAppDispatch();
+
   const removeItemHandler = (item: ICartProduct) => {
     dispatch(removeCartItem(item));
+  };
+
+  const updateCartHandler = (item: ICartProduct, pCount: string) => {
+    const productCount = Number(pCount);
+    dispatch(addCartItem({ ...item, productCount }));
   };
 
   return (
@@ -54,11 +60,24 @@ export default function CartScreen() {
                         {elem.name}
                       </Link>
                     </td>
-                    <td className="p-5 text-right">{elem.productCount}</td>
+                    <td className="p-5 text-right">
+                      <select
+                        value={elem.productCount}
+                        onChange={(e) =>
+                          updateCartHandler(elem, e.target.value)
+                        }
+                      >
+                        {[...Array(elem.quantity).keys()].map((x) => (
+                          <option key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
                     <td className="p-5 text-right">{elem.price} BYN</td>
                     <td className="p-5 text-center">
                       <button onClick={() => removeItemHandler(elem)}>
-                        <XCircleIcon className="h-5 w-5"></XCircleIcon>
+                        <XCircleIcon className="h-5 w-5" />
                       </button>
                     </td>
                   </tr>
