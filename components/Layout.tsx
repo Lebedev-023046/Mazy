@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useAppSelector } from "@/hooks/redux";
+import { useSession } from "next-auth/react";
 
 interface ILayoutProps {
   title?: string;
@@ -9,6 +12,8 @@ interface ILayoutProps {
 }
 
 export default function Layout({ title, children }: ILayoutProps) {
+  const { status, data: session } = useSession();
+
   const { cartItems } = useAppSelector((state) => state.cartSlice.cart);
   const [cartItemsCount, setCartItemsCount] = useState(0);
   useEffect(() => {
@@ -28,6 +33,8 @@ export default function Layout({ title, children }: ILayoutProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <ToastContainer position="bottom-center" limit={1}></ToastContainer>
+
       <div className="flex min-h-screen flex-col justify-between">
         <header>
           <nav className="flex h-12 justify-between shadow-md items-center px-4">
@@ -43,9 +50,16 @@ export default function Layout({ title, children }: ILayoutProps) {
                   </span>
                 )}
               </Link>
-              <Link href={"/login"} className="p-2">
-                Login
-              </Link>
+
+              {status === "loading" ? (
+                "Loading"
+              ) : session?.user ? (
+                session?.user.name
+              ) : (
+                <Link href={"/login"} className="p-2">
+                  Login
+                </Link>
+              )}
             </div>
           </nav>
         </header>
