@@ -12,7 +12,7 @@ const initialState: IStateFields = {
   cart: {
     cartItems: Cookies.get("cart")
       ? JSON.parse(String(Cookies.get("cart")))
-      : { cartItems: [] },
+      : [],
   },
 };
 
