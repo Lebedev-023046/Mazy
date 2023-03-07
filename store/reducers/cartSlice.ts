@@ -1,19 +1,28 @@
 import { ICartProduct } from "@/types";
+import { IShippingAddress } from "@/types/IProduct";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
 interface IStateFields {
   cart: {
     cartItems: ICartProduct[];
+    shippingAddress: IShippingAddress;
   };
 }
 
 const initialState: IStateFields = {
-  cart: {
-    cartItems: Cookies.get("cart")
-      ? JSON.parse(String(Cookies.get("cart")))
-      : [],
-  },
+  cart: Cookies.get("cart")
+    ? JSON.parse(String(Cookies.get("cart")))
+    : {
+        cartItems: [],
+        shippingAddress: {
+          fullName: "",
+          address: "",
+          city: "",
+          postalCode: "",
+          country: "",
+        },
+      },
 };
 
 export const cartSlice = createSlice({
@@ -44,10 +53,21 @@ export const cartSlice = createSlice({
     resetCart: (state) => {
       state.cart = {
         cartItems: [],
+        shippingAddress: {
+          fullName: "",
+          address: "",
+          city: "",
+          postalCode: "",
+          country: "",
+        },
       };
+    },
+    saveShippingAddress: (state, action: PayloadAction<IShippingAddress>) => {
+      state.cart.shippingAddress = action.payload;
     },
   },
 });
 
-export const { addCartItem, removeCartItem, resetCart } = cartSlice.actions;
+export const { addCartItem, removeCartItem, resetCart, saveShippingAddress } =
+  cartSlice.actions;
 export default cartSlice.reducer;
