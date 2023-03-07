@@ -12,6 +12,14 @@ export interface IProduct {
   quantity: number;
 }
 
+export interface IShippingAddress {
+  fullName: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
+
 export interface ICartProduct extends IProduct {
   productCount: number;
 }
