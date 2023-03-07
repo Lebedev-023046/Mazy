@@ -51,7 +51,7 @@ export default function LoginScreen() {
         className="mx-auto max-w-screen-md"
         onSubmit={handleSubmit(submitHandler)}
       >
-        <h1 className="text-md mb-4">Login</h1>
+        <h1 className="text-2xl font-bold mb-4">Login</h1>
         <div className="mb-4">
           <label htmlFor="email">Email</label>
           <input
