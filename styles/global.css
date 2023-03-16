@@ -19,6 +19,9 @@ a {
 .primary-button {
   @apply transition rounded bg-amber-300 py-2 px-4 shadow outline-none hover:bg-amber-400 active:bg-amber-500;
 }
+.default-button {
+  @apply transition rounded bg-gray-100 text-[#232323] py-2 px-4 shadow outline-none hover:bg-gray-200 active:bg-gray-300;
+}
 
 input,
 select,
