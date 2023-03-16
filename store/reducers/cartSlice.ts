@@ -7,6 +7,7 @@ interface IStateFields {
   cart: {
     cartItems: ICartProduct[];
     shippingAddress: IShippingAddress;
+    paymentMethod: string;
   };
 }
 
@@ -22,6 +23,7 @@ const initialState: IStateFields = {
           postalCode: "",
           country: "",
         },
+        paymentMethod: "",
       },
 };
 
@@ -60,14 +62,23 @@ export const cartSlice = createSlice({
           postalCode: "",
           country: "",
         },
+        paymentMethod: "",
       };
     },
     saveShippingAddress: (state, action: PayloadAction<IShippingAddress>) => {
       state.cart.shippingAddress = action.payload;
     },
+    savePaymentMethod: (state, action: PayloadAction<string>) => {
+      state.cart.paymentMethod = action.payload;
+    },
   },
 });
 
-export const { addCartItem, removeCartItem, resetCart, saveShippingAddress } =
-  cartSlice.actions;
+export const {
+  addCartItem,
+  removeCartItem,
+  resetCart,
+  saveShippingAddress,
+  savePaymentMethod,
+} = cartSlice.actions;
 export default cartSlice.reducer;
