@@ -1,5 +1,4 @@
 export interface IProduct {
-  id: string;
   name: string;
   size: number[];
   color: string;
@@ -7,9 +6,15 @@ export interface IProduct {
   img: string;
   slug: string;
   year: number;
-  popular: boolean;
-  brand: string;
+  rating: number;
   quantity: number;
+}
+
+export interface IDBProduct extends IProduct {
+  _id: string;
+  __v: 0;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IShippingAddress {
@@ -20,6 +25,6 @@ export interface IShippingAddress {
   country: string;
 }
 
-export interface ICartProduct extends IProduct {
+export interface ICartProduct extends IDBProduct {
   productCount: number;
 }
