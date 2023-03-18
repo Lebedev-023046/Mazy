@@ -1,5 +1,5 @@
 import { ICartProduct } from "@/types";
-import { IShippingAddress } from "@/types/IProduct";
+import { IShippingAddress } from "@/types/ICart";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
@@ -41,15 +41,28 @@ export const cartSlice = createSlice({
             elem.name === existItem.name ? newItem : elem
           )
         : [...state.cart.cartItems, newItem];
-      Cookies.set("cart", JSON.stringify([...cartItems]));
+      Cookies.set(
+        "cart",
+        JSON.stringify({
+          ...initialState.cart,
+          cartItems: [...cartItems],
+        })
+      );
       state.cart.cartItems = [...cartItems];
     },
     removeCartItem: (state, action: PayloadAction<ICartProduct>) => {
       const itemToRemove = action.payload;
       const updatedItemList = state.cart.cartItems.filter(
-        (elem) => elem.id !== itemToRemove.id
+        (elem) => elem.slug !== itemToRemove.slug
       );
-      Cookies.set("cart", JSON.stringify([...updatedItemList]));
+      Cookies.set(
+        "cart",
+        JSON.stringify({
+          ...initialState.cart,
+          cartItems: [...updatedItemList],
+        })
+      );
+
       state.cart.cartItems = updatedItemList;
     },
     resetCart: (state) => {
