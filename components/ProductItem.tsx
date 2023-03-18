@@ -1,13 +1,18 @@
-import { IProduct } from "@/types";
+import { IDBProduct } from "@/types/ICart";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 interface IProductItemProps {
-  product: IProduct;
+  product: IDBProduct;
+  // eslint-disable-next-line no-unused-vars
+  addToCartHandler: (product: IDBProduct) => Promise<void>;
 }
 
-export const ProductItem: React.FC<IProductItemProps> = ({ product }) => {
+export const ProductItem: React.FC<IProductItemProps> = ({
+  product,
+  addToCartHandler,
+}) => {
   return (
     <div className="card">
       <Link href={`/product/${product.slug}`}>
@@ -23,9 +28,12 @@ export const ProductItem: React.FC<IProductItemProps> = ({ product }) => {
         <Link href={`/product/${product.slug}`}>
           <h2 className="text-lg">{product.name}</h2>
         </Link>
-        <p className="mb-2">{product.brand}</p>
         <p>{product.price} BYN</p>
-        <button className="primary-button" type="button">
+        <button
+          className="primary-button"
+          type="button"
+          onClick={() => addToCartHandler(product)}
+        >
           Add to cart
         </button>
       </div>
