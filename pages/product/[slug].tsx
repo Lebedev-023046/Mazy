@@ -1,29 +1,42 @@
 import Layout from "@/components/Layout";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import Product from "@/models/Product";
 import { addCartItem } from "@/store/reducers/cartSlice";
-import { data } from "@/utils/data";
+import { IDBProduct } from "@/types/ICart";
+import db from "@/utils/db";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { toast } from "react-toastify";
 
-export default function ProductScreen() {
+interface IContext {
+  params: {
+    slug: string;
+  };
+}
+
+interface IProductScreen {
+  product: IDBProduct;
+}
+
+export default function ProductScreen(props: IProductScreen) {
+  const { product } = props;
   const dispatch = useAppDispatch();
   const { cartItems } = useAppSelector((state) => state.cartSlice.cart);
   const router = useRouter();
-  const { slug } = router.query;
-  const product = data.products.find((p) => p.slug === slug);
   if (!product) {
-    return <div>Product Not Found</div>;
+    return <Layout title="Product Not Found">Product Not Found</Layout>;
   }
 
-  const addToCartHandler = () => {
+  const addToCartHandler = async () => {
     const existItem = cartItems.find((elem) => elem.slug === product.slug);
     const productCount = existItem ? existItem.productCount + 1 : 1;
+    const { data } = await axios.get(`/api/products/${product._id}`);
 
-    if (product.quantity < productCount) {
-      alert("Sorry. Product is out of stock");
-      return;
+    if (data.quantity < productCount) {
+      return toast.error("Sorry. Product is out of stock");
     }
 
     dispatch(addCartItem({ ...product, productCount: productCount }));
@@ -49,7 +62,6 @@ export default function ProductScreen() {
             <li>
               <h1 className="text-lg">{product.name}</h1>
             </li>
-            <li>Brand: {product.brand}</li>
             <li>Price: {product.price} BYN</li>
             <li>Quantity: {product.quantity}</li>
             <li>Year: {product.year}</li>
@@ -74,4 +86,17 @@ export default function ProductScreen() {
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps({ params }: IContext) {
+  const { slug } = params;
+  await db.connect();
+  const product = await Product.findOne({ slug }).lean();
+  await db.disconnect();
+
+  return {
+    props: {
+      product: product ? db.convertDocToObj(product) : null,
+    },
+  };
 }
