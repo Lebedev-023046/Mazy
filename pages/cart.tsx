@@ -9,6 +9,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function CartScreen() {
   const router = useRouter();
@@ -19,9 +21,14 @@ function CartScreen() {
     dispatch(removeCartItem(item));
   };
 
-  const updateCartHandler = (item: ICartProduct, pCount: string) => {
+  const updateCartHandler = async (item: ICartProduct, pCount: string) => {
     const productCount = Number(pCount);
+    const { data } = await axios.get(`/api/products/${item._id}`);
+    if (data.quantity < productCount) {
+      return toast.error("Sorry. Product is out of stock");
+    }
     dispatch(addCartItem({ ...item, productCount }));
+    toast.success("Product updated in the cart");
   };
 
   return (
@@ -45,7 +52,7 @@ function CartScreen() {
               </thead>
               <tbody>
                 {cartItems.map((elem) => (
-                  <tr key={elem.id} className="border-b">
+                  <tr key={elem.slug} className="border-b">
                     <td>
                       <Link
                         className="flex items-center"
