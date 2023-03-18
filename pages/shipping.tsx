@@ -2,7 +2,7 @@ import CheckoutWizard from "@/components/CheckoutWizard";
 import Layout from "@/components/Layout";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { saveShippingAddress } from "@/store/reducers/cartSlice";
-import { IShippingAddress } from "@/types/IProduct";
+import { IShippingAddress } from "@/types/ICart";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
