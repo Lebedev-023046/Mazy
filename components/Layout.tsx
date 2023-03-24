@@ -23,7 +23,7 @@ export default function Layout({ title, children }: ILayoutProps) {
   const [cartItemsCount, setCartItemsCount] = useState(0);
   useEffect(() => {
     setCartItemsCount(
-      cartItems.reduce((acc, elem) => acc + elem.productCount, 0)
+      cartItems.reduce((acc, elem) => acc + elem.quantityInCart, 0)
     );
   }, [cartItems]);
 
