@@ -3,11 +3,11 @@ export interface IProduct {
   size: number[];
   color: string;
   price: number;
-  img: string;
+  image: string;
   slug: string;
   year: number;
   rating: number;
-  quantity: number;
+  countInStock: number;
 }
 
 export interface IDBProduct extends IProduct {
@@ -26,5 +26,5 @@ export interface IShippingAddress {
 }
 
 export interface ICartProduct extends IDBProduct {
-  productCount: number;
+  quantityInCart: number;
 }
