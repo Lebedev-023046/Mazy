@@ -13,7 +13,6 @@ export default function PaymentScreen() {
   const { cart } = useAppSelector((state) => state.cartSlice);
   const { shippingAddress, paymentMethod } = cart;
   const router = useRouter();
-  console.log(`selectedPaymentMethod: ${selectedPaymentMethod}`);
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
