@@ -19,15 +19,15 @@ export default function Home({ products }: IHomeProps) {
 
   const addToCartHandler = async (product: IDBProduct) => {
     const existItem = cartItems.find((elem) => elem.slug === product.slug);
-    const productCount = existItem ? existItem.productCount + 1 : 1;
+    const quantityInCart = existItem ? existItem.quantityInCart + 1 : 1;
     const { data } = await axios.get(`/api/products/${product._id}`);
 
-    if (data.quantity < productCount) {
+    if (data.quantityInCart < quantityInCart) {
       toast.error("Sorry. Product is out of stock");
       return;
     }
 
-    dispatch(addCartItem({ ...product, productCount: productCount }));
+    dispatch(addCartItem({ ...product, quantityInCart: quantityInCart }));
 
     toast.success("Product added to the cart");
   };
@@ -50,6 +50,7 @@ export default function Home({ products }: IHomeProps) {
 export async function getServerSideProps() {
   await db.connect();
   const products = await Product.find().lean();
+  console.log(`Product: ${products}`);
   return {
     props: {
       products: products.map(db.convertDocToObj),
