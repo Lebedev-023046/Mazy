@@ -17,7 +17,7 @@ export const ProductItem: React.FC<IProductItemProps> = ({
     <div className="card">
       <Link href={`/product/${product.slug}`}>
         <Image
-          src={product.img}
+          src={product.image}
           alt={product.name}
           className="rounded shadow mx-auto"
           width={289}
