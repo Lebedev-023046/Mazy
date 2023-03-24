@@ -78,6 +78,9 @@ export const cartSlice = createSlice({
         paymentMethod: "",
       };
     },
+    resetCartItems: (state) => {
+      state.cart.cartItems = [];
+    },
     saveShippingAddress: (state, action: PayloadAction<IShippingAddress>) => {
       state.cart.shippingAddress = action.payload;
     },
@@ -91,6 +94,7 @@ export const {
   addCartItem,
   removeCartItem,
   resetCart,
+  resetCartItems,
   saveShippingAddress,
   savePaymentMethod,
 } = cartSlice.actions;
