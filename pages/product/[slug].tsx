@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import Product from "@/models/Product";
 import { addCartItem } from "@/store/reducers/cartSlice";
-import { IDBProduct } from "@/types/ICart";
+import { ICartProduct } from "@/types/ICart";
 import db from "@/utils/db";
 import axios from "axios";
 import Image from "next/image";
@@ -18,7 +18,7 @@ interface IContext {
 }
 
 interface IProductScreen {
-  product: IDBProduct;
+  product: ICartProduct;
 }
 
 export default function ProductScreen(props: IProductScreen) {
@@ -32,14 +32,14 @@ export default function ProductScreen(props: IProductScreen) {
 
   const addToCartHandler = async () => {
     const existItem = cartItems.find((elem) => elem.slug === product.slug);
-    const productCount = existItem ? existItem.productCount + 1 : 1;
+    const quantityInCart = existItem ? existItem.quantityInCart + 1 : 1;
     const { data } = await axios.get(`/api/products/${product._id}`);
 
-    if (data.quantity < productCount) {
+    if (data.countInStock < quantityInCart) {
       return toast.error("Sorry. Product is out of stock");
     }
 
-    dispatch(addCartItem({ ...product, productCount: productCount }));
+    dispatch(addCartItem({ ...product, quantityInCart: quantityInCart }));
     router.push("/cart");
   };
 
@@ -51,7 +51,7 @@ export default function ProductScreen(props: IProductScreen) {
       <div className="grid md:grid-cols-4 md:gap-3">
         <div className="md:col-span-2">
           <Image
-            src={product.img}
+            src={product.image}
             alt={product.slug}
             width={320}
             height={520}
@@ -63,7 +63,7 @@ export default function ProductScreen(props: IProductScreen) {
               <h1 className="text-lg">{product.name}</h1>
             </li>
             <li>Price: {product.price} BYN</li>
-            <li>Quantity: {product.quantity}</li>
+            <li>Quantity: {product.quantityInCart}</li>
             <li>Year: {product.year}</li>
           </ul>
         </div>
@@ -75,7 +75,10 @@ export default function ProductScreen(props: IProductScreen) {
             </div>
             <div className="mb-2 flex justify-between">
               <div>Quantity</div>
-              <div> {product.quantity > 0 ? "In Stock" : "Unavailable"}</div>
+              <div>
+                {" "}
+                {product.countInStock > 0 ? "In Stock" : "Unavailable"}
+              </div>
             </div>
           </div>
 
