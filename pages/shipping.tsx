@@ -65,7 +65,7 @@ export default function ShippingScreen() {
 
   return (
     <Layout title="Shipping Address">
-      <CheckoutWizard activeSteps={1}></CheckoutWizard>
+      <CheckoutWizard activeSteps={1} />
       <form
         className="mx-auto max-w-screen-md"
         onSubmit={handleSubmit(submitHandler)}
