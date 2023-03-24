@@ -21,13 +21,13 @@ function CartScreen() {
     dispatch(removeCartItem(item));
   };
 
-  const updateCartHandler = async (item: ICartProduct, pCount: string) => {
-    const productCount = Number(pCount);
+  const updateCartHandler = async (item: ICartProduct, quantity: string) => {
+    const quantityInCart = Number(quantity);
     const { data } = await axios.get(`/api/products/${item._id}`);
-    if (data.quantity < productCount) {
+    if (data.countInStock < quantityInCart) {
       return toast.error("Sorry. Product is out of stock");
     }
-    dispatch(addCartItem({ ...item, productCount }));
+    dispatch(addCartItem({ ...item, quantityInCart }));
     toast.success("Product updated in the cart");
   };
 
@@ -59,7 +59,7 @@ function CartScreen() {
                         href={`/products/${elem.slug}`}
                       >
                         <Image
-                          src={elem.img}
+                          src={elem.image}
                           alt={elem.name}
                           width={50}
                           height={50}
@@ -70,12 +70,12 @@ function CartScreen() {
                     </td>
                     <td className="p-5 text-right">
                       <select
-                        value={elem.productCount}
+                        value={elem.quantityInCart}
                         onChange={(e) =>
                           updateCartHandler(elem, e.target.value)
                         }
                       >
-                        {[...Array(elem.quantity).keys()].map((x) => (
+                        {[...Array(elem.countInStock).keys()].map((x) => (
                           <option key={x + 1} value={x + 1}>
                             {x + 1}
                           </option>
@@ -98,10 +98,13 @@ function CartScreen() {
               <li>
                 <div className="pb-3 text-xl">
                   Subtotal (
-                  {cartItems.reduce((acc, elem) => acc + elem.productCount, 0)}){" "}
-                  :{" "}
                   {cartItems.reduce(
-                    (acc, elem) => acc + elem.productCount * elem.price,
+                    (acc, elem) => acc + elem.quantityInCart,
+                    0
+                  )}
+                  ) :{" "}
+                  {cartItems.reduce(
+                    (acc, elem) => acc + elem.quantityInCart * elem.price,
                     0
                   )}{" "}
                   BYN
