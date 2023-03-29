@@ -1,11 +1,5 @@
+import IUser from "@/types/IUser";
 import mongoose from "mongoose";
-
-interface IUser {
-  name: string;
-  email: string;
-  password: string;
-  isAdmin: boolean;
-}
 
 const userSchema = new mongoose.Schema<IUser>(
   {
