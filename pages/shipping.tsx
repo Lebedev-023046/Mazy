@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-export default function ShippingScreen() {
+function ShippingScreen() {
   const dispatch = useAppDispatch();
   const { cart } = useAppSelector((state) => state.cartSlice);
   const { shippingAddress } = cart;
@@ -154,3 +154,4 @@ export default function ShippingScreen() {
 }
 
 ShippingScreen.auth = true;
+export default ShippingScreen;

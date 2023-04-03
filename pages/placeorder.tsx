@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function PlaceOrderScreen() {
+function PlaceOrderScreen() {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cartSlice.cart);
   const { cartItems, shippingAddress, paymentMethod } = cart;
@@ -183,3 +183,4 @@ export default function PlaceOrderScreen() {
 }
 
 PlaceOrderScreen.auth = true;
+export default PlaceOrderScreen;

@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function PaymentScreen() {
+function PaymentScreen() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const dispatch = useAppDispatch();
   const { cart } = useAppSelector((state) => state.cartSlice);
@@ -76,3 +76,4 @@ export default function PaymentScreen() {
 }
 
 PaymentScreen.auth = true;
+export default PaymentScreen;
