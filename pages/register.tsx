@@ -138,7 +138,7 @@ export default function LoginScreen() {
         <div className="mt-4">
           {/* Don&apos;t have an account? */}
           Already have an account? &nbsp;
-          <Link href={`/login`}>Register</Link>
+          <Link href={`/login`}>Login</Link>
         </div>
       </form>
     </Layout>
