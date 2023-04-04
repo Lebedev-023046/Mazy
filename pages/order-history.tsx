@@ -5,7 +5,6 @@ import { getError } from "@/utils/error";
 import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useReducer } from "react";
-import { toast } from "react-toastify";
 
 const enum IActions {
   FETCH_REQUEST = "FETCH_REQUEST",
