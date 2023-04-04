@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Layout from "@/components/Layout";
 import { IDBOrder } from "@/types";
 import { getError } from "@/utils/error";
@@ -6,7 +7,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useReducer } from "react";
-import Actions from "./actions";
+
+const enum Actions {
+  FETCH_REQUEST = "FETCH_REQUEST",
+  FETCH_SUCCESS = "FETCH_SUCCESS",
+  FETCH_FAIL = "FETCH_FAIL",
+}
 
 interface IReducerState {
   loading: boolean;
@@ -106,7 +112,7 @@ function OrderScreen() {
               </div>
               {isDelivered ? (
                 <div className="alert-success">
-                  Delivered at {deliveredAt?.toISOString()}
+                  Delivered at {deliveredAt as string}
                 </div>
               ) : (
                 <div className="alert-error">Not delivered</div>
@@ -116,9 +122,7 @@ function OrderScreen() {
               <h2 className="mb-2 text-lg">Payment Method</h2>
               <div>{paymentMethod}</div>
               {isPaid ? (
-                <div className="alert-success">
-                  Paid at {paidAt?.toISOString()}
-                </div>
+                <div className="alert-success">Paid at {paidAt as string}</div>
               ) : (
                 <div className="alert-error">Not Paid</div>
               )}
