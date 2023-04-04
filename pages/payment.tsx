@@ -1,7 +1,7 @@
 import CheckoutWizard from "@/components/CheckoutWizard";
 import Layout from "@/components/Layout";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { savePaymentMethod } from "@/store/reducers/cartSlice";
+import { cartActions } from "@/store/reducers/cartSlice";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -10,8 +10,13 @@ import { toast } from "react-toastify";
 function PaymentScreen() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const dispatch = useAppDispatch();
-  const { cart } = useAppSelector((state) => state.cartSlice);
-  const { shippingAddress, paymentMethod } = cart;
+  const cart = useAppSelector((state) => state.cartReducer.cart);
+  const shippingAddress = useAppSelector(
+    (state) => state.cartReducer.cart.shippingAddress
+  );
+  const paymentMethod = useAppSelector(
+    (state) => state.cartReducer.cart.paymentMethod
+  );
   const router = useRouter();
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
@@ -19,7 +24,7 @@ function PaymentScreen() {
     if (!selectedPaymentMethod) {
       return toast.error("Payment Method is Required");
     }
-    dispatch(savePaymentMethod(selectedPaymentMethod));
+    dispatch(cartActions.savePaymentMethod(selectedPaymentMethod));
 
     Cookies.set(
       "cart",

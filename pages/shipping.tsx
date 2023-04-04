@@ -1,7 +1,7 @@
 import CheckoutWizard from "@/components/CheckoutWizard";
 import Layout from "@/components/Layout";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { saveShippingAddress } from "@/store/reducers/cartSlice";
+import { cartActions } from "@/store/reducers/cartSlice";
 import { IShippingAddress } from "@/types/ICart";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 
 function ShippingScreen() {
   const dispatch = useAppDispatch();
-  const { cart } = useAppSelector((state) => state.cartSlice);
+  const cart = useAppSelector((state) => state.cartReducer.cart);
   const { shippingAddress } = cart;
 
   const router = useRouter();
@@ -38,7 +38,7 @@ function ShippingScreen() {
     country,
   }: IShippingAddress) => {
     dispatch(
-      saveShippingAddress({
+      cartActions.saveShippingAddress({
         fullName,
         address,
         city,

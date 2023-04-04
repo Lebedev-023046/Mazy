@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "@/components/Layout";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { addCartItem, removeCartItem } from "@/store/reducers/cartSlice";
+import { cartActions } from "@/store/reducers/cartSlice";
 import { ICartProduct } from "@/types";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 
@@ -14,11 +14,11 @@ import { toast } from "react-toastify";
 
 function CartScreen() {
   const router = useRouter();
-  const { cartItems } = useAppSelector((state) => state.cartSlice.cart);
+  const cartItems = useAppSelector((state) => state.cartReducer.cart.cartItems);
   const dispatch = useAppDispatch();
 
   const removeItemHandler = (item: ICartProduct) => {
-    dispatch(removeCartItem(item));
+    dispatch(cartActions.removeCartItem(item));
   };
 
   const updateCartHandler = async (item: ICartProduct, quantity: string) => {
@@ -27,7 +27,7 @@ function CartScreen() {
     if (data.countInStock < quantityInCart) {
       return toast.error("Sorry. Product is out of stock");
     }
-    dispatch(addCartItem({ ...item, quantityInCart }));
+    dispatch(cartActions.addCartItem({ ...item, quantityInCart }));
     toast.success("Product updated in the cart");
   };
 
