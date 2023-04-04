@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { forwardRef } from "react";
 
 interface IDropdownLinkProps {
   href: string;
@@ -7,14 +7,17 @@ interface IDropdownLinkProps {
   className: string;
 }
 
-export default function DropdownLink({
-  href,
-  children,
-  ...rest
-}: IDropdownLinkProps) {
-  return (
-    <Link href={href} {...rest}>
-      {children}
-    </Link>
-  );
-}
+const DropdownLink = forwardRef(
+  // eslint-disable-next-line no-unused-vars
+  ({ href, children, ...rest }: IDropdownLinkProps, ref) => {
+    return (
+      <Link href={href} {...rest}>
+        <div>{children}</div>
+      </Link>
+    );
+  }
+);
+
+DropdownLink.displayName = "DropdownLink";
+
+export default DropdownLink;
