@@ -95,11 +95,13 @@ function OrderHistoryScreen() {
                     {order.totalPrice.toString().substring(0, 10)}
                   </td>
                   <td className="p-5">
-                    {order.isPaid ? order.paidAt.substring(0, 10) : "Not Paid"}
+                    {order.isPaid
+                      ? (order.paidAt as string).substring(0, 10)
+                      : "Not Paid"}
                   </td>
                   <td className="p-5">
                     {order.isDelivered
-                      ? order.deliveredAt.substring(0, 10)
+                      ? (order.deliveredAt as string).substring(0, 10)
                       : "Not Delivered"}
                   </td>
                   <td className="p-5">

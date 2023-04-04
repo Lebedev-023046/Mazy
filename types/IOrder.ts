@@ -19,8 +19,8 @@ export interface IOrder {
   totalPrice: number;
   isPaid: boolean;
   isDelivered: boolean;
-  paidAt: string;
-  deliveredAt: string;
+  paidAt: Date | string;
+  deliveredAt: Date | string;
 }
 
 export interface IDBOrder extends IOrder {
