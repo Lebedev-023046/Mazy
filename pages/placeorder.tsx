@@ -1,7 +1,7 @@
 import CheckoutWizard from "@/components/CheckoutWizard";
 import Layout from "@/components/Layout";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { resetCartItems } from "@/store/reducers/cartSlice";
+import { cartActions } from "@/store/reducers/cartSlice";
 import { getError } from "@/utils/error";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -13,8 +13,15 @@ import { toast } from "react-toastify";
 
 function PlaceOrderScreen() {
   const dispatch = useAppDispatch();
-  const cart = useAppSelector((state) => state.cartSlice.cart);
-  const { cartItems, shippingAddress, paymentMethod } = cart;
+  const cart = useAppSelector((state) => state.cartReducer.cart);
+
+  const cartItems = useAppSelector((state) => state.cartReducer.cart.cartItems);
+  const shippingAddress = useAppSelector(
+    (state) => state.cartReducer.cart.shippingAddress
+  );
+  const paymentMethod = useAppSelector(
+    (state) => state.cartReducer.cart.paymentMethod
+  );
 
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -36,7 +43,7 @@ function PlaceOrderScreen() {
         totalPrice,
       });
       setLoading(false);
-      dispatch(resetCartItems());
+      dispatch(cartActions.resetCartItems());
       Cookies.set("cart", JSON.stringify({ ...cart, cartItems: [] }));
       router.push(`/order/${data._id}`);
     } catch (err) {

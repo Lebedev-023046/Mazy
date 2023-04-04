@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import { ProductItem } from "@/components/ProductItem";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import Product from "@/models/Product";
-import { addCartItem } from "@/store/reducers/cartSlice";
+import { cartActions } from "@/store/reducers/cartSlice";
 import { IDBProduct } from "@/types/ICart";
 import db from "@/utils/db";
 import axios from "axios";
@@ -15,7 +15,7 @@ interface IHomeProps {
 
 export default function Home({ products }: IHomeProps) {
   const dispatch = useAppDispatch();
-  const { cartItems } = useAppSelector((state) => state.cartSlice.cart);
+  const cartItems = useAppSelector((state) => state.cartReducer.cart.cartItems);
 
   const addToCartHandler = async (product: IDBProduct) => {
     const existItem = cartItems.find((elem) => elem.slug === product.slug);
@@ -27,7 +27,9 @@ export default function Home({ products }: IHomeProps) {
       return;
     }
 
-    dispatch(addCartItem({ ...product, quantityInCart: quantityInCart }));
+    dispatch(
+      cartActions.addCartItem({ ...product, quantityInCart: quantityInCart })
+    );
 
     toast.success("Product added to the cart");
   };
