@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { resetCart } from "@/store/reducers/cartSlice";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Menu } from "@headlessui/react";
@@ -9,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { signOut, useSession } from "next-auth/react";
 import DropdownLink from "./DropdownLink";
 import Cookies from "js-cookie";
+import { cartActions } from "@/store/reducers/cartSlice";
 
 interface ILayoutProps {
   title?: string;
@@ -19,7 +19,7 @@ export default function Layout({ title, children }: ILayoutProps) {
   const { status, data: session } = useSession();
   const dispatch = useAppDispatch();
 
-  const { cartItems } = useAppSelector((state) => state.cartSlice.cart);
+  const cartItems = useAppSelector((state) => state.cartReducer.cart.cartItems);
   const [cartItemsCount, setCartItemsCount] = useState(0);
   useEffect(() => {
     setCartItemsCount(
@@ -30,7 +30,7 @@ export default function Layout({ title, children }: ILayoutProps) {
   const logoutClickHandler = () => {
     Cookies.remove("cart");
     signOut({ callbackUrl: "/login" });
-    dispatch(resetCart());
+    dispatch(cartActions.resetCart());
   };
 
   return (
