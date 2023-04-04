@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import Product from "@/models/Product";
-import { addCartItem } from "@/store/reducers/cartSlice";
+import { cartActions } from "@/store/reducers/cartSlice";
 import { ICartProduct } from "@/types/ICart";
 import db from "@/utils/db";
 import axios from "axios";
@@ -24,7 +24,7 @@ interface IProductScreen {
 export default function ProductScreen(props: IProductScreen) {
   const { product } = props;
   const dispatch = useAppDispatch();
-  const { cartItems } = useAppSelector((state) => state.cartSlice.cart);
+  const cartItems = useAppSelector((state) => state.cartReducer.cart.cartItems);
   const router = useRouter();
   if (!product) {
     return <Layout title="Product Not Found">Product Not Found</Layout>;
@@ -39,7 +39,9 @@ export default function ProductScreen(props: IProductScreen) {
       return toast.error("Sorry. Product is out of stock");
     }
 
-    dispatch(addCartItem({ ...product, quantityInCart: quantityInCart }));
+    dispatch(
+      cartActions.addCartItem({ ...product, quantityInCart: quantityInCart })
+    );
     router.push("/cart");
   };
 
