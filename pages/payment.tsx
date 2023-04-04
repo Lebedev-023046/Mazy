@@ -48,7 +48,14 @@ function PaymentScreen() {
       <CheckoutWizard activeSteps={2} />
       <form className="mx-auto max-w-screen-md" onSubmit={submitHandler}>
         <h1 className="mb-4 text-xl">Payment Method</h1>
-        {["Master Card", "Cash On Delivery"].map((payment) => (
+        {[
+          "Master Card",
+          "Cash On Delivery",
+          "Visa",
+          "Union Pay",
+          "Belcard",
+          "MIR",
+        ].map((payment) => (
           <div key={payment} className="mb-4">
             <input
               type="radio"
