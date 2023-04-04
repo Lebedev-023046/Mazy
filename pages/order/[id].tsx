@@ -132,10 +132,10 @@ function OrderScreen() {
               <table className="min-w-full">
                 <thead className="border-b">
                   <tr>
-                    <th className="px-5 text-left">Item</th>
-                    <th className="px-5 text-left">Quantity</th>
-                    <th className="px-5 text-left">Price</th>
-                    <th className="px-5 text-left">Subtotal</th>
+                    <th className="px-5">Item</th>
+                    <th className="px-5 text-right">Quantity</th>
+                    <th className="px-5 text-right">Price</th>
+                    <th className="px-5 text-right">Subtotal</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -143,7 +143,7 @@ function OrderScreen() {
                     <tr key={product._id} className="border-b">
                       <td>
                         <Link
-                          className="flex items-center"
+                          className="flex items-center px-5"
                           href={`/product/${product.slug}`}
                         >
                           <Image
