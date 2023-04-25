@@ -39,7 +39,6 @@ function PlaceOrderScreen() {
         paymentMethod,
         itemsPrice,
         shippingPrice,
-        taxPrice,
         totalPrice,
       });
       setLoading(false);
@@ -57,8 +56,7 @@ function PlaceOrderScreen() {
   );
 
   const shippingPrice = itemsPrice > 100 ? 0 : 15;
-  const taxPrice = round2(itemsPrice * 0.15);
-  const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
+  const totalPrice = round2(itemsPrice + shippingPrice);
 
   useEffect(() => {
     if (!paymentMethod) {
@@ -151,12 +149,6 @@ function PlaceOrderScreen() {
                   <div className="mb-2 flex justify-between">
                     <div>Items</div>
                     <div>{itemsPrice} BYN</div>
-                  </div>
-                </li>
-                <li>
-                  <div className="mb-2 flex justify-between">
-                    <div>Tax</div>
-                    <div>{taxPrice} BYN</div>
                   </div>
                 </li>
                 <li>

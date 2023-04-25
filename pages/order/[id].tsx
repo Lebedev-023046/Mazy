@@ -82,7 +82,6 @@ function OrderScreen() {
     paymentMethod,
     orderItems,
     itemsPrice,
-    taxPrice,
     shippingPrice,
     totalPrice,
     isPaid,
@@ -177,12 +176,6 @@ function OrderScreen() {
                   <div className="mb-2 flex justify-between">
                     <div>Items</div>
                     <div>{itemsPrice} BYN</div>
-                  </div>
-                </li>
-                <li>
-                  <div className="mb-2 flex justify-between">
-                    <div>Tax</div>
-                    <div>{taxPrice} BYN</div>
                   </div>
                 </li>
                 <li>

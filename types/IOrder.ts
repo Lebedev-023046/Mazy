@@ -15,7 +15,6 @@ export interface IOrder {
   paymentResult: { id: string; status: string; email_address: string };
   itemsPrice: number;
   shippingPrice: number;
-  taxPrice: number;
   totalPrice: number;
   isPaid: boolean;
   isDelivered: boolean;
